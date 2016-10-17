@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/vivo-un/ColorGen#readme",
   "dependencies": {
+    "angular": "^1.5.8",
     "express": "^4.14.0"
   }
 }

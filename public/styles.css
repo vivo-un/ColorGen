@@ -1,0 +1,4 @@
+.change {
+    -webkit-filter: hue-rotate(90deg); /* Chrome, Safari, Opera */
+    filter: hue-rotate(90deg);
+}
