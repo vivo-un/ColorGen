@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/vivo-un/ColorGen/issues"
   },
-  "homepage": "https://github.com/vivo-un/ColorGen#readme"
+  "homepage": "https://github.com/vivo-un/ColorGen#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
 }
