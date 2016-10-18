@@ -27,6 +27,7 @@ myApp.controller('colorCtrl', function($scope, $http){
   };
   $scope.addThis = function() {
     $scope.saved.push([$scope.title, $scope.num, $scope.curImage]);
+    $scope.title = "";
   };
   $scope.addToDb = function() {
     var data = {
