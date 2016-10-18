@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ColorGen</title>
+    <script src='./lib/angular/angular.js'></script>
+  </head>
+
+  <body ng-app="myApp" ng-controller="colorCtrl">
+    <h1>ColorGen</h1>
+    <img ng-style='style' src="./uploads/file.jpg"></img>
+    <form>
+      <button ng-click="changeColors()">generate</button>
+    </form>
+    <form method="post" enctype="multipart/form-data" action="/upload">
+      <input type='file' name='file'>
+      <input type='submit' value='submit'>
+    </form>
+    <script>
+      var myApp = angular.module('myApp', []);
+
+      myApp.controller('colorCtrl', function($scope){
+        $scope.style = {};
+        $scope.num = 0;
+        $scope.changeAmount = function() {
+           $scope.num = Math.floor(Math.rand()) * 360;
+        };
+        $scope.changeColors = function(){
+          $scope.num+=45;
+          $scope.style = {
+            '-webkit-filter': 'hue-rotate('+$scope.num+'deg)',
+            'filter': 'hue-rotate('+$scope.num+'deg)',
+            'transition': 'all ease 0.3s'}
+        };
+      })
+    </script>
+  </body>
+</html>

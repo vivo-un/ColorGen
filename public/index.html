@@ -12,6 +12,10 @@
     <form>
       <button ng-click="changeColors()">generate</button>
     </form>
+    <form method="post" enctype="multipart/form-data" action="/upload">
+      <input type='file' name='file'>
+      <input type='submit' value='submit'>
+    </form>
     <script>
       var myApp = angular.module('myApp', []);
 
