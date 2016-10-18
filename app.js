@@ -3,6 +3,10 @@ var app = express();
 var fs = require('fs');
 var fileUpload = require('express-fileupload');
 var db = require('./dbConfig.js');
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
 
 app.use(express.static(__dirname+'/public'));
 app.use(fileUpload());
@@ -14,6 +18,21 @@ app.use(function(req, res, next){
 
 app.get('/', function(req, res) {
   res.sendFile(__dirname+'/public/index.html');
+});
+
+app.get('/saved', function(req, res) {
+  new db.colors({name:'*'})
+    .fetchAll()
+    .then(function(saved){
+      if(!saved){
+        console.log('nothing saved');
+      } else {
+        res.json(saved);
+      }
+    });
+    // .fail(function(error) {
+    //   console.log(error);
+    // });
 });
 
 
@@ -32,28 +51,19 @@ app.post('/upload', function(req, res) {
       // res.sendFile(__dirname+'/public/newImage.html');
     }
   });
+});
 
-app.post('/colors', function(req, res) {
+app.post('/color', function(req, res) {
+  // console.log(req);
   console.log('tried to post!');
-  savedColors = new db.colors ({
-    filepath: req.body.filepath,
+  console.log(req.body);
+
+  var savedColors = new db.colors ({
+    filePath: req.body.filePath,
     colorChange: req.body.colorChange,
     name:req.body.name
-    }).then(function(model, err){
-      console.log('added ', req.body.name, ' to the db!');
-      res.end();
-    });
+    }).save();
   });
-});
-  // var target = path.resolve('/.uploads/image.jpg');
-  // fs.rename(temp, target, function(err){
-  //   if(err){
-  //     console.log(err);
-  //   } else {
-  //     console.log('uploaded!');
-  //   }
-  // });
-// });
 
 app.listen(process.env.PORT || 5000, function(){
   console.log('listening on port PORT or 5000');

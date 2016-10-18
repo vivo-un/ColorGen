@@ -7,6 +7,7 @@ myApp.controller('colorCtrl', function($scope, $http){
   $scope.saved = [];
   $scope.style = {};
   $scope.num = 1;
+  $scope.fromDb = [];
   // $scope.showAlert = function(){
   //   alert('i got clicked and index is '+ requestColors);
   // };
@@ -33,14 +34,21 @@ myApp.controller('colorCtrl', function($scope, $http){
       filePath: $scope.curImage,
       colorChange: $scope.num
     };
-    $http({
+    console.log(JSON.stringify(data));
+    // fetch('/color', {
+    //   method:'POST',
+    //   headers: {'Content-Type': 'application/json'},
+    //   data: JSON.stringify(data)
+    // });
+    return ($http({
       method:'POST',
-      url: '/colors',
-      data:data
+      url: '/color',
+      data:JSON.stringify(data),
+      headers: {'Content-Type': 'application/json'}
     })
     .catch(function(err){
       return(err);
-    });
+    }));
   };
   $scope.changeImage=function(){
     $scope.changeColors(1, 0);
@@ -51,4 +59,26 @@ myApp.controller('colorCtrl', function($scope, $http){
     $scope.num = $scope.saved[$index][1];
     $scope.changeColors($scope.num, 0);
   };
-})
+  $scope.showSavedDb = function($index) {
+    $scope.curImage = $scope.fromDb[$index][2];
+    $scope.num = $scope.fromDb[$index][1];
+    $scope.changeColors($scope.num, 0);
+  };
+  $scope.getFromDb = function(){
+    return($http({
+      method:'GET',
+      url: '/saved',
+    })
+    .then(function(resp) {
+      $scope.fromDb = [];
+      resp.data.forEach(function(each){
+        console.log(resp.data);
+        // if(each.filePath===null){
+        //   each.filepath = './default.jpg';
+        // }
+        $scope.fromDb.push([each.name, each.colorChange, each.filePath]);
+      });
+      console.log($scope.fromDb);
+    }));
+  };
+});

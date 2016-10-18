@@ -13,21 +13,23 @@
   </head>
 
   <body ng-app="myApp">
-  <div ng-controller="colorCtrl" class='ui three column doubling stackable container'>
+  <div ng-controller="colorCtrl" class='ui container'>
     <h1>ColorGen</h1>
 
 <!-- CHANGING COLORS -->
     <div class='column'>
-      <img class="ui centered image" ng-style='style' ng-src='{{curImage}}'></img>
+      <img class="ui right floated image" ng-style='style' ng-src='{{curImage}}'></img>
     </div>
+  <div class="middle aligned content">
     <button class="ui secondary right labeled icon button" ng-click="changeColors()"><i class="right arrow icon"></i>generate</button>
 
-<!-- SAVING SCHEME -->
-    <div class='column'>
+<!-- BOOKMARK & SAVE -->
+    <div class='column bottom aligned content'>
       <div class='ui action input'>
         <input class='ui black basic button' type='text' name='title' placeholder='Give it a name:' ng-model="title"></input>
         <!-- <button ng-click="addToDb()">Save</button> -->
-        <button class='ui black basic button' ng-click="addThis()">Save</button>
+        <button class='ui black basic button' ng-click="addThis()">Bookmark</button>
+        <button class='ui black basic button' ng-click="addToDb()">Save Scheme</button>
     </div>
 
 <!-- UPLOADING NEW IMAGE -->
@@ -39,7 +41,11 @@
     </div>
 
 <!-- DISPLAYING SAVED -->
+    <h3>Bookmarked Color Schemes:</h3>
       <li ng-repeat="each in saved" ng-click='showSaved($index)'><a href="#">{{each[0]}}</a></li>
+    <h3 ng-click='getFromDb()'>Saved Color Schemes:</h3>
+      <li ng-repeat="each in fromDb" ng-click='showSavedDb($index)'><a href="#">{{each[0]}}</a></li>
+    </div>
   </div>
     <script src='./colors.js'></script>
   </body>
