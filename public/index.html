@@ -44,7 +44,7 @@
       <h3>Bookmarked Color Schemes:</h3>
         <li ng-repeat="each in saved" ng-click='showSaved($index)'><a href="#">{{each[0]}}</a></li>
       <h3 ng-click='getFromDb()'>Saved Color Schemes:</h3>
-        <li ng-repeat="each in fromDb" ng-click='showSavedDb($index)'><a href="#">{{each[0]}}</a></li>
+        <li ng-repeat="each in fromDb track by $index" ng-click='showSavedDb($index)'><a href="#">{{each[0]}}</a></li>
     </div>
     </div>
     <script src='./colors.js'></script>

@@ -40,7 +40,7 @@ myApp.controller('colorCtrl', function($scope, $http){
     //   headers: {'Content-Type': 'application/json'},
     //   data: JSON.stringify(data)
     // });
-    return ($http({
+    $http({
       method:'POST',
       url: '/color',
       data:JSON.stringify(data),
@@ -48,7 +48,8 @@ myApp.controller('colorCtrl', function($scope, $http){
     })
     .catch(function(err){
       return(err);
-    }));
+    });
+    $scope.title = "";
   };
   $scope.changeImage=function(){
     $scope.changeColors(1, 0);
@@ -76,6 +77,7 @@ myApp.controller('colorCtrl', function($scope, $http){
         // if(each.filePath===null){
         //   each.filepath = './default.jpg';
         // }
+
         $scope.fromDb.push([each.name, each.colorChange, each.filePath]);
       });
       console.log($scope.fromDb);
