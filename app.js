@@ -22,7 +22,7 @@ app.post('/upload', function(req, res) {
       console.log(err);
     } else {
       console.log('File uploaded!');
-      res.sendFile(__dirname+'/public/newImage.html');
+      // res.sendFile(__dirname+'/public/newImage.html');
     }
   });
 

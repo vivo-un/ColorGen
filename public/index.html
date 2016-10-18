@@ -6,31 +6,59 @@
     <script src='./lib/angular/angular.js'></script>
   </head>
 
-  <body ng-app="myApp" ng-controller="colorCtrl">
+  <body ng-app="myApp">
+  <div ng-controller="colorCtrl">
     <h1>ColorGen</h1>
-    <img ng-style='style' src="./default.jpg"></img>
-    <form>
-      <button ng-click="changeColors()">generate</button>
-    </form>
+<!-- CHANGING COLORS -->
+    <img ng-style='style' ng-src='{{curImage}}'></img>
+    <button ng-click="changeColors()">generate</button>
+<!-- UPLOADING NEW IMAGE -->
     <form method="post" enctype="multipart/form-data" action="/upload">
       <input type='file' name='file'>
-      <input type='submit' value='submit'>
+      <input type='submit' value='submit' ng-click='changeImage()'>
     </form>
+<!-- SAVING SCHEME -->
+      <input type='text' name='title' placeholder='Give it a name:' ng-model="title"></input>
+      <button ng-click="addThis()">Save</button>
+<!-- DISPLAYING SAVED -->
+      <li ng-repeat="each in saved" ng-click='showSaved($index)'><a href="#">{{each[0]}}</a></li>
+  </div>
     <script>
       var myApp = angular.module('myApp', []);
 
       myApp.controller('colorCtrl', function($scope){
+        $scope.title="";
+        $scope.curImage = './default.jpg';
+        $scope.saved = [];
         $scope.style = {};
-        $scope.num = 0;
+        $scope.num = 1;
+        // $scope.showAlert = function($index){
+        //   alert('i got clicked and index is '+ $index);
+        // };
         $scope.changeAmount = function() {
-           $scope.num = Math.floor(Math.rand()) * 360;
+           $scope.num = Math.floor(Math.random() * 360);
+           console.log($scope.num);
         };
-        $scope.changeColors = function(){
-          $scope.num+=45;
+        $scope.changeColors = function(amt){
+          var amt = amt || $scope.num+45;
+          $scope.num = amt;
+          // $scope.changeAmount(); works but doesn't look as good because of the transition effects
           $scope.style = {
             '-webkit-filter': 'hue-rotate('+$scope.num+'deg)',
             'filter': 'hue-rotate('+$scope.num+'deg)',
-            'transition': 'all ease 0.3s'}
+            'transition': 'all ease 0.4s'}
+        };
+        $scope.addThis = function() {
+          $scope.saved.push([$scope.title, $scope.num, $scope.curImage]);
+        };
+        $scope.changeImage=function(){
+          $scope.changeColors(1);
+          $scope.curImage = './uploads/file.jpg';
+        };
+        $scope.showSaved = function($index) {
+          $scope.curImage = $scope.saved[$index][2];
+          $scope.num = $scope.saved[$index][1];
+          $scope.changeColors($scope.num);
         };
       })
     </script>
