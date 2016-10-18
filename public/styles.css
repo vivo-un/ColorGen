@@ -1,7 +1,15 @@
+body{
+  padding-top:50px;
+}
+img {
+  padding-right:300px;
+}
+
 .ui {
     padding-top:10px;
 }
 
 .container{
+  padding-top:150px;
   padding-bottom:60px;
 }
