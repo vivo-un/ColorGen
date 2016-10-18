@@ -4,63 +4,43 @@
     <meta charset="utf-8" />
     <title>ColorGen</title>
     <script src='./lib/angular/angular.js'></script>
+    <script src='./factories.js'></script>
+    <script src="http://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+  <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+  <link rel="stylesheet" href="./styles.css"></link>
+
   </head>
 
   <body ng-app="myApp">
-  <div ng-controller="colorCtrl">
+  <div ng-controller="colorCtrl" class='ui three column doubling stackable container'>
     <h1>ColorGen</h1>
+
 <!-- CHANGING COLORS -->
-    <img ng-style='style' ng-src='{{curImage}}'></img>
-    <button ng-click="changeColors()">generate</button>
-<!-- UPLOADING NEW IMAGE -->
-    <form method="post" enctype="multipart/form-data" action="/upload">
-      <input type='file' name='file'>
-      <input type='submit' value='submit' ng-click='changeImage()'>
-    </form>
+    <div class='column'>
+      <img class="ui centered image" ng-style='style' ng-src='{{curImage}}'></img>
+    </div>
+    <button class="ui secondary right labeled icon button" ng-click="changeColors()"><i class="right arrow icon"></i>generate</button>
+
 <!-- SAVING SCHEME -->
-      <input type='text' name='title' placeholder='Give it a name:' ng-model="title"></input>
-      <button ng-click="addThis()">Save</button>
+    <div class='column'>
+      <div class='ui action input'>
+        <input class='ui black basic button' type='text' name='title' placeholder='Give it a name:' ng-model="title"></input>
+        <!-- <button ng-click="addToDb()">Save</button> -->
+        <button class='ui black basic button' ng-click="addThis()">Save</button>
+    </div>
+
+<!-- UPLOADING NEW IMAGE -->
+    <div class='column'>
+      <form class='ui action input' method="post" enctype="multipart/form-data" action="/upload">
+        <input class='ui black basic button' type='file' name='file'>
+        <input class='ui black basic button' type='submit' value='submit' ng-click='changeImage()'>
+      </form>
+    </div>
+
 <!-- DISPLAYING SAVED -->
       <li ng-repeat="each in saved" ng-click='showSaved($index)'><a href="#">{{each[0]}}</a></li>
   </div>
-    <script>
-      var myApp = angular.module('myApp', []);
-
-      myApp.controller('colorCtrl', function($scope){
-        $scope.title="";
-        $scope.curImage = './default.jpg';
-        $scope.saved = [];
-        $scope.style = {};
-        $scope.num = 1;
-        // $scope.showAlert = function($index){
-        //   alert('i got clicked and index is '+ $index);
-        // };
-        $scope.changeAmount = function() {
-           $scope.num = Math.floor(Math.random() * 360);
-           console.log($scope.num);
-        };
-        $scope.changeColors = function(amt){
-          var amt = amt || $scope.num+45;
-          $scope.num = amt;
-          // $scope.changeAmount(); works but doesn't look as good because of the transition effects
-          $scope.style = {
-            '-webkit-filter': 'hue-rotate('+$scope.num+'deg)',
-            'filter': 'hue-rotate('+$scope.num+'deg)',
-            'transition': 'all ease 0.4s'}
-        };
-        $scope.addThis = function() {
-          $scope.saved.push([$scope.title, $scope.num, $scope.curImage]);
-        };
-        $scope.changeImage=function(){
-          $scope.changeColors(1);
-          $scope.curImage = './uploads/file.jpg';
-        };
-        $scope.showSaved = function($index) {
-          $scope.curImage = $scope.saved[$index][2];
-          $scope.num = $scope.saved[$index][1];
-          $scope.changeColors($scope.num);
-        };
-      })
-    </script>
+    <script src='./colors.js'></script>
   </body>
 </html>
